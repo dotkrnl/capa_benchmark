@@ -14,7 +14,9 @@ For integer bitwidth optimization:
 	3. facedetection: another integer operation-intensive application. It detects human faces in a given image. The application takes an 320x240 greyscale image as input, and eventually the positions and sizes of the human faces are returned.
 
 For refactoring the recursive functions:
+
 	1. binarysearch: recursive binary search with randomly generated inputs.
+
 	2. determinant: calculate the determinant of a given matrix in a recursive manner.
 
 For floating-point bitwidth optimization: (these two still have bugs)
@@ -22,8 +24,11 @@ For floating-point bitwidth optimization: (these two still have bugs)
 	2. opticalflow
 
 Referenced benchmarks for FPGA High-level Synthesis:
+
 Rosseta: https://github.com/cornell-zhang/rosetta
+
 CHStone: http://www.ertl.jp/chstone/#Publication
+
 SDAccel: https://github.com/Xilinx/SDAccel_Examples/tree/master/acceleration/smithwaterman/src
 
 CHStone and SDAccel are popular used FPGA high level synthesis benchmarks, Rosseta is the latest and realistic hls benchmark suit. However CHStone programs are written in a limited set of C programming language. The following data types and constructs, which are not supported by most of HLS tools, are not used: floating-point data, composite data types, dynamic memory allocation, and recursive functions. Thus we only consider the test programs in SDAccel and Rosseta here.
