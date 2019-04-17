@@ -6,17 +6,20 @@ Time: 04/17/2019
 This repo lists the selected benchmarks for CAPA. Basically they are either edited from Rosseta/SDAccel or written by hand.
 
 For integer bitwidth optimization:
-	bubble: bubble sort
-	3drendering: this is an integer operation-intensive design. It renders 2D images from 3D models(3D triangle mesh). Each 3D triangl is packed into a 32-bit integer.
-	facedetection: another integer operation-intensive application. It detects human faces in a given image. The application takes an 320x240 greyscale image as input, and eventually the positions and sizes of the human faces are returned.
+	
+	1. bubble: bubble sort
+
+	2. 3drendering: this is an integer operation-intensive design. It renders 2D images from 3D models(3D triangle mesh). Each 3D triangl is packed into a 32-bit integer.
+
+	3. facedetection: another integer operation-intensive application. It detects human faces in a given image. The application takes an 320x240 greyscale image as input, and eventually the positions and sizes of the human faces are returned.
 
 For refactoring the recursive functions:
-	binarysearch: recursive binary search with randomly generated inputs.
-	determinant: calculate the determinant of a given matrix in a recursive manner.
+	1. binarysearch: recursive binary search with randomly generated inputs.
+	2. determinant: calculate the determinant of a given matrix in a recursive manner.
 
 For floating-point bitwidth optimization: (these two still have bugs)
-	kmeans
-	opticalflow
+	1. kmeans
+	2. opticalflow
 
 Referenced benchmarks for FPGA High-level Synthesis:
 Rosseta: https://github.com/cornell-zhang/rosetta
