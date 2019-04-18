@@ -20,8 +20,11 @@ For refactoring the recursive functions:
 	2. determinant: calculate the determinant of a given matrix in a recursive manner.
 
 For floating-point bitwidth optimization: (these two still have bugs)
-	1. kmeans
-	2. opticalflow
+
+	1. KNN: K nearest neighbor, this is a floating-point arithmetic intensive application. 
+
+	2. RGB2YUV: image processing. Also floating-point arithmetic intensive.
+
 
 Referenced benchmarks for FPGA High-level Synthesis:
 
