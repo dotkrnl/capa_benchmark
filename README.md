@@ -21,7 +21,7 @@ For refactoring the recursive functions:
 
 For floating-point bitwidth optimization: (these two still have bugs)
 
-	1. KNN: K nearest neighbor, this is a floating-point arithmetic intensive application. 
+	1. KNN: K nearest neighbor, this is a floating-point arithmetic intensive application. It searches from 100000 data samples with 2018 dimensions.
 
 	2. RGB2YUV: image processing. Also floating-point arithmetic intensive.
 
