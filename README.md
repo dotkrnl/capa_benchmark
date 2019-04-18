@@ -19,7 +19,7 @@ For refactoring the recursive functions:
 
 	2. determinant: calculate the determinant of a given matrix in a recursive manner.
 
-For floating-point bitwidth optimization: (these two still have bugs)
+For floating-point bitwidth optimization:
 
 	1. KNN: K nearest neighbor, this is a floating-point arithmetic intensive application. It searches from 100000 data samples with 2018 dimensions.
 
