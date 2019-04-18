@@ -3,7 +3,7 @@
 Author: Qian Zhang
 Time: 04/17/2019
 
-This repo lists the selected benchmarks for CAPA. Basically they are either edited from Rosseta/SDAccel or written by hand.
+This repo lists the selected benchmarks for CAPA. Basically they are either edited from Rosseta/SDAccel or written by hand. All of these benchmarks are ready-to-use eclipse C++ projects.
 
 For integer bitwidth optimization:
 	
