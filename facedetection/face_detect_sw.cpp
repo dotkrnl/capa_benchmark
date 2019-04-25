@@ -16,14 +16,14 @@
 #include "face_detect_sw.h"
 
 // function declarations
-void integralImages( int height, int width, unsigned char Data[IMAGE_HEIGHT][IMAGE_WIDTH], int Sum[IMAGE_HEIGHT][IMAGE_WIDTH], int Sqsum[IMAGE_HEIGHT][IMAGE_WIDTH]);
+void integralImages( int height, int width, int Data[IMAGE_HEIGHT][IMAGE_WIDTH], int Sum[IMAGE_HEIGHT][IMAGE_WIDTH], int Sqsum[IMAGE_HEIGHT][IMAGE_WIDTH]);
 
 void imageScaler        ( int src_height,
 			  int src_width,
-                          unsigned char Data[IMAGE_HEIGHT][IMAGE_WIDTH],
+                          int Data[IMAGE_HEIGHT][IMAGE_WIDTH],
                           int dest_height,
 			  int dest_width,
-                          unsigned char IMG1_data[IMAGE_HEIGHT][IMAGE_WIDTH]
+                          int IMG1_data[IMAGE_HEIGHT][IMAGE_WIDTH]
                         );
 
 void processImage       ( float factor,
@@ -34,7 +34,7 @@ void processImage       ( float factor,
                           int *AllCandidates_w,
                           int *AllCandidates_h,
                           int *AllCandidates_size,
-                          unsigned char IMG1_data[IMAGE_HEIGHT][IMAGE_WIDTH],
+                          int IMG1_data[IMAGE_HEIGHT][IMAGE_WIDTH],
                           MySize winSize
                         );
 
@@ -68,7 +68,7 @@ inline  int  myRound ( float value )
 void face_detect_sw
 
 (
-  unsigned char Data[IMAGE_HEIGHT][IMAGE_WIDTH],
+  int Data[IMAGE_HEIGHT][IMAGE_WIDTH],
   int result_x[RESULT_SIZE],
   int result_y[RESULT_SIZE],
   int result_w[RESULT_SIZE],
@@ -82,7 +82,7 @@ void face_detect_sw
   *result_size = 0;
 
   float  scaleFactor = 1.2;
-  unsigned char IMG1_data[IMAGE_HEIGHT][IMAGE_WIDTH];
+  int IMG1_data[IMAGE_HEIGHT][IMAGE_WIDTH];
 
   float factor;
   int height,width;
@@ -143,7 +143,7 @@ void processImage
   int *AllCandidates_w,
   int *AllCandidates_h,
   int *AllCandidates_size,
-  unsigned char IMG1_data[IMAGE_HEIGHT][IMAGE_WIDTH],
+  int IMG1_data[IMAGE_HEIGHT][IMAGE_WIDTH],
   MySize winSize
 )
 {
@@ -341,10 +341,10 @@ int weakClassifier
 
 }
 
-void integralImages( int height, int width, unsigned char Data[IMAGE_HEIGHT][IMAGE_WIDTH], int Sum[IMAGE_HEIGHT][IMAGE_WIDTH], int Sqsum[IMAGE_HEIGHT][IMAGE_WIDTH])
+void integralImages( int height, int width, int Data[IMAGE_HEIGHT][IMAGE_WIDTH], int Sum[IMAGE_HEIGHT][IMAGE_WIDTH], int Sqsum[IMAGE_HEIGHT][IMAGE_WIDTH])
 {
   int x, y, s, sq, t, tq;
-  unsigned char it;
+  int it;
 
   for( y = 0; y < height; y++)
     {
@@ -380,18 +380,16 @@ void imageScaler
 (
   int src_height,
   int src_width,
-  unsigned char Data[IMAGE_HEIGHT][IMAGE_WIDTH],
+  int Data[IMAGE_HEIGHT][IMAGE_WIDTH],
   int dest_height,
   int dest_width,
-  unsigned char IMG1_data[IMAGE_HEIGHT][IMAGE_WIDTH]
+  int IMG1_data[IMAGE_HEIGHT][IMAGE_WIDTH]
 )
 {
   int y;
   int j;
   int x;
   int i;
-  unsigned char* t;
-  unsigned char* p;
   int w1 = src_width;
   int h1 = src_height;
   int w2 = dest_width;

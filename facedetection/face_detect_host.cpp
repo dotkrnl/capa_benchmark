@@ -145,14 +145,14 @@ int main(int argc, char ** argv)
   // software version host code
   #ifdef SW
     // to be implemented
-    gettimeofday(&start, 0);
+//    gettimeofday(&start, 0);
     face_detect_sw(Data, result_x, result_y, result_w, result_h, &res_size);
-    gettimeofday(&end, 0);
+//    gettimeofday(&end, 0);
   #endif
  
   // check results
-  printf("Checking results:\n");
-  check_results(res_size, result_x, result_y, result_w, result_h, Data, outFile);
+//  printf("Checking results:\n");
+//  check_results(res_size, result_x, result_y, result_w, result_h, Data, outFile);
     
   // print time
   long long elapsed = (end.tv_sec - start.tv_sec) * 1000000LL + end.tv_usec - start.tv_usec;   
