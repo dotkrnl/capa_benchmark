@@ -15,21 +15,21 @@
 #include <sys/time.h>
 #include "commons.h"
 
-#ifdef OCL
-  // harness headers
-  #include "CLWorld.h"
-  #include "CLKernel.h"
-  #include "CLMemObj.h"
-  // harness namespace
-  using namespace rosetta;
-#endif
+//#ifdef OCL
+//  // harness headers
+//  #include "CLWorld.h"
+//  #include "CLKernel.h"
+//  #include "CLMemObj.h"
+//  // harness namespace
+//  using namespace rosetta;
+//#endif
 
-#ifdef SDSOC
-  // sdsoc headers
-  #include "sds_lib.h"
-  // hardware function declaration
-  #include "../sdsoc/rendering.h"
-#endif
+//#ifdef SDSOC
+//  // sdsoc headers
+//  #include "sds_lib.h"
+//  // hardware function declaration
+//  #include "../sdsoc/rendering.h"
+//#endif
 
 #ifdef SW
   # include "rendering_sw.h"
@@ -38,10 +38,10 @@
 // other headers
 #include "utils.h"
 #include "typedefs.h"
-#include "check_result.h"
+//#include "check_result.h"
 
 // data
-#include "input_data.h"
+#include "./input_data/input_data31.h"
 
 
 int main(int argc, char ** argv)
@@ -165,12 +165,12 @@ int main(int argc, char ** argv)
   #endif
 
   // check results
-  printf("Checking results:\n");
-  check_results(output);
+//  printf("Checking results:\n");
+//  check_results(output);
 
   // print time
-  long long elapsed = (end.tv_sec - start.tv_sec) * 1000000LL + end.tv_usec - start.tv_usec;
-  printf("elapsed time: %lld us\n", elapsed);
+//  long long elapsed = (end.tv_sec - start.tv_sec) * 1000000LL + end.tv_usec - start.tv_usec;
+//  printf("elapsed time: %lld us\n", elapsed);
 
   // cleanup
   #ifdef OCL
