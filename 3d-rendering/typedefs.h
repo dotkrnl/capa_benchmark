@@ -36,7 +36,7 @@ const int NUM_3D_TRI = 192;
   typedef ap_uint<16> bit16;
   typedef ap_uint<32> bit32;
 #else
-  typedef unsigned char bit8;
+  typedef unsigned int bit8;
   typedef unsigned int bit32;
 #endif
 
