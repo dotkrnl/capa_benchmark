@@ -1,0 +1,5 @@
+1. Generate 3000 data where each point is of type 
+{84, 59, 28, 86, 70, 27, 89, 64, 28}
+2. Progressively increase the color scale. e.g. first 100 images to have 
+values from 0-60, next 300 to have values frm 0-120 etc. 
+3. With this synthetic data we should have 30 subsets with different bitwidth
