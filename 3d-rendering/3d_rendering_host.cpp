@@ -41,7 +41,7 @@
 //#include "check_result.h"
 
 // data
-#include "./input_data/input_data31.h"
+#include "input_data.h"
 
 
 int main(int argc, char ** argv)
@@ -159,9 +159,9 @@ int main(int argc, char ** argv)
     // output
     bit8 output[MAX_X][MAX_Y];
     // run and time sw function
-    gettimeofday(&start, 0);
+//   gettimeofday(&start, 0);
     rendering_sw(triangle_3ds, output);
-    gettimeofday(&end, 0);
+//    gettimeofday(&end, 0);
   #endif
 
   // check results
