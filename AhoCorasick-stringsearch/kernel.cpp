@@ -121,6 +121,8 @@ void query_AhoCorasick(node *root, char *query,
     *query_indexes = -1;
 }
 
+extern "C" {
+
 /*
  * Implementation of Aho-Corasick Algorithm
  *
@@ -139,13 +141,14 @@ void AhoCorasick_search(
         int *substring_indexes, int *query_indexes) {
 #pragma HLS INTERFACE m_axi port=substrings offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=query offset=slave bundle=gmem
-#pragma HLS INTERFACE m_axi port=substring_index offset=slave bundle=gmem
-#pragma HLS INTERFACE m_axi port=query_index offset=slave bundle=gmem
+#pragma HLS INTERFACE m_axi port=substring_indexes offset=slave bundle=gmem
+#pragma HLS INTERFACE m_axi port=query_indexes offset=slave bundle=gmem
 #pragma HLS INTERFACE s_axilite port=substring_length bundle=control
 #pragma HLS INTERFACE s_axilite port=substrings bundle=control
 #pragma HLS INTERFACE s_axilite port=query bundle=control
-#pragma HLS INTERFACE s_axilite port=substring_index bundle=control
-#pragma HLS INTERFACE s_axilite port=query_index bundle=control
+#pragma HLS INTERFACE s_axilite port=substring_indexes bundle=control
+#pragma HLS INTERFACE s_axilite port=query_indexes bundle=control
+#pragma HLS INTERFACE s_axilite port=return bundle=control
 
     node *root = new_node();
     int node_count = 1;
@@ -158,3 +161,5 @@ void AhoCorasick_search(
     build_AhoCorasick(root, node_count);
     query_AhoCorasick(root, query, substring_indexes, query_indexes);
 }
+
+};
