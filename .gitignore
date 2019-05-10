@@ -1,3 +1,10 @@
 .dtrace
 .gz
 .decls
+.vscode
+*/obj/
+*/tmp/
+*/rpt/
+*/log/
+*/bin/
+*.xclbin*
