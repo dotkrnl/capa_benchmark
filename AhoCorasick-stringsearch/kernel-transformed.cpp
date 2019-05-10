@@ -303,23 +303,65 @@ __didxclass_node new_node()
  * Return: the '%' location of the string.
  */
 
+struct __rect_packed_type_L988R__L989R 
+{
+  __didxclass_node local0;
+  char *local1;
+  int local2;
+  int *local3;
+  char local4;
+  int local5;
+  unsigned int _location;
+  int _return;
+}
+;
+
 int insert_node(__didxclass_node root,char *str,int substring_index,int *node_count)
 {
-  int offset;
-  for (offset = 0; ; offset++) {
-    char ch = str[offset];
-    if (ch == '%') 
-      break; 
-    ch >= 'a' && ch <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",42,__PRETTY_FUNCTION__);
-    int idx = ch - 'a';
-    if (!(&(__dmemclass_node + root + 0U - 1U) -> _data) -> next[idx]) {
-      (&(__dmemclass_node + root + 0U - 1U) -> _data) -> next[idx] = new_node();
-       *node_count += 1;
-    }
-    root = (&(__dmemclass_node + root + 0U - 1U) -> _data) -> next[idx];
+  struct __rect_packed_type_L988R__L989R __rect_packed_var_L988R__L989R[1 << ARRAY_LOG];
+  unsigned int __rect_packed_top_L988R__L989R;
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 1U;
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 = root;
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local1 = str;
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local2 = substring_index;
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 = node_count;
+  ++__rect_packed_top_L988R__L989R;
+  __rect_func_L0_L988R__L989R:
+  if (0U == __rect_packed_top_L988R__L989R) 
+    return __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _return;
+  --__rect_packed_top_L988R__L989R;
+  if (1U == __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location) 
+    goto __rect_func_L1_L988R__L989R;
+  if (2U == __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location) 
+    goto __rect_func_L2_L988R__L989R;
+  __rect_func_L1_L988R__L989R:
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 =  *__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local1;
+  if (__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 == '%') {
+    (&(__dmemclass_node + __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 + 0U - 1U) -> _data) -> substring_index = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local2;
+    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _return = 0;
+    goto __rect_func_L0_L988R__L989R;
   }
-  (&(__dmemclass_node + root + 0U - 1U) -> _data) -> substring_index = substring_index;
-  return offset + 1;
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 >= 'a' && __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",44,__PRETTY_FUNCTION__);
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local5 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 - 'a';
+  if (!(&(__dmemclass_node + __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 + 0U - 1U) -> _data) -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local5]) {
+    (&(__dmemclass_node + __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 + 0U - 1U) -> _data) -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local5] = new_node();
+     *__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 += 1;
+  }
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 2U;
+  __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local3 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3;
+  __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local2 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local2;
+  __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local1 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local1 + 1;
+  __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local0 = (&(__dmemclass_node + __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 + 0U - 1U) -> _data) -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local5];
+  ++__rect_packed_top_L988R__L989R;
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 1U;
+  goto __rect_func_L1_L988R__L989R;
+  __rect_func_L2_L988R__L989R:
+{
+  }
+  int __rect_ret0_L988R__L989R = __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . _return;
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _return = __rect_ret0_L988R__L989R + 1;
+  goto __rect_func_L0_L988R__L989R;
+  goto __rect_func_L0_L988R__L989R;
 }
 /*
  * Build Aho-Corasick state machine.
@@ -383,6 +425,49 @@ void query_AhoCorasick(__didxclass_node root,char *query,int *substring_indexes,
    *substring_indexes = - 1;
    *query_indexes = - 1;
 }
+/* 
+ * Delete the whole tree
+ */
+
+struct __rect_packed_type_L994R__L995R 
+{
+  __didxclass_node local0;
+  int local1;
+  unsigned int _location;
+}
+;
+
+void delete_tree(__didxclass_node root)
+{
+  struct __rect_packed_type_L994R__L995R __rect_packed_var_L994R__L995R[1 << ARRAY_LOG];
+  unsigned int __rect_packed_top_L994R__L995R;
+  __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location = 1U;
+  __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local0 = root;
+  ++__rect_packed_top_L994R__L995R;
+  __rect_func_L0_L994R__L995R:
+  if (0U == __rect_packed_top_L994R__L995R) 
+    return ;
+  --__rect_packed_top_L994R__L995R;
+  if (1U == __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location) 
+    goto __rect_func_L1_L994R__L995R;
+  if (2U == __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location) 
+    goto __rect_func_L2_L994R__L995R;
+  __rect_func_L1_L994R__L995R:
+  if (!__rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local0) {
+    goto __rect_func_L0_L994R__L995R;
+  }
+  for (__rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local1 = 0; __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local1 < 26; __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local1++) {
+    __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location = 2U;
+    __rect_packed_var_L994R__L995R[1 + __rect_packed_top_L994R__L995R] . local0 = (&(__dmemclass_node + __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local0 + 0U - 1U) -> _data) -> next[__rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local1];
+    ++__rect_packed_top_L994R__L995R;
+    __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location = 1U;
+    goto __rect_func_L1_L994R__L995R;
+    __rect_func_L2_L994R__L995R:
+    0;
+  }
+  __dst_alloc_free__dmemclass_node(__rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local0);
+  goto __rect_func_L0_L994R__L995R;
+}
 extern "C" {
 /*
  * Implementation of Aho-Corasick Algorithm
@@ -424,9 +509,10 @@ void AhoCorasick_search(int substring_length,char *substrings,char *query,int *s
   int node_count = 1;
   for (int offset = 0; offset < substring_length; ) {
     char *substrings_curr = substrings + offset;
-    offset += insert_node(root,substrings_curr,offset,&node_count);
+    offset += insert_node(root,substrings_curr,offset,&node_count) + 1;
   }
   build_AhoCorasick(root,node_count);
   query_AhoCorasick(root,query,substring_indexes,query_indexes);
+  delete_tree(root);
 }
 }

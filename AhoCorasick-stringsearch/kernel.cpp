@@ -35,22 +35,22 @@ node *new_node() {
  */
 int insert_node(node *root, char *str,
         int substring_index, int *node_count) {
-    int offset;
-    for (offset = 0; ; offset++) {
-        char ch = str[offset];
-        if (ch == '%') break;
-        assert(ch >= 'a' && ch <= 'z');
-        int idx = ch - 'a';
-
-        if (!root->next[idx]) {
-            root->next[idx] = new_node();
-            *node_count += 1;
-        }
-        root = root->next[idx];
+    char ch = *str;
+    if (ch == '%') {
+        root->substring_index = substring_index;
+        return 0;
     }
 
-    root->substring_index = substring_index;
-    return offset + 1;
+    assert(ch >= 'a' && ch <= 'z');
+    int idx = ch - 'a';
+
+    if (!root->next[idx]) {
+        root->next[idx] = new_node();
+        *node_count += 1;
+    }
+
+    return insert_node(root->next[idx], str + 1,
+            substring_index, node_count) + 1;
 }
 
 /*
@@ -121,6 +121,16 @@ void query_AhoCorasick(node *root, char *query,
     *query_indexes = -1;
 }
 
+/* 
+ * Delete the whole tree
+ */
+void delete_tree(node *root) {
+    if (!root) return;
+    for (int i = 0; i < 26; i++)
+        delete_tree(root->next[i]);
+    free(root);
+}
+
 extern "C" {
 
 /*
@@ -155,11 +165,12 @@ void AhoCorasick_search(
 
     for (int offset = 0; offset < substring_length; ) {
         char *substrings_curr = substrings + offset;
-        offset += insert_node(root, substrings_curr, offset, &node_count);
+        offset += insert_node(root, substrings_curr, offset, &node_count) + 1;
     }
 
     build_AhoCorasick(root, node_count);
     query_AhoCorasick(root, query, substring_indexes, query_indexes);
+    delete_tree(root);
 }
 
 };
