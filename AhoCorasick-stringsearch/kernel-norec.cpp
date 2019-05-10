@@ -29,6 +29,7 @@ struct node *new_node()
   }
   return curr;
 }
+int node_count = 1;
 /*
  * Insert a new trie node with string as content.
  * The node will be inserted to the trie specified by root.
@@ -41,23 +42,21 @@ struct __rect_packed_type_L988R__L989R
   struct node *local0;
   char *local1;
   int local2;
-  int *local3;
-  char local4;
-  int local5;
+  char local3;
+  int local4;
   unsigned int _location;
   int _return;
 }
 ;
 
-int insert_node(struct node *root,char *str,int substring_index,int *node_count)
+int insert_node(struct node *root,char *str,int substring_index)
 {
   struct __rect_packed_type_L988R__L989R __rect_packed_var_L988R__L989R[1024U];
-  unsigned int __rect_packed_top_L988R__L989R;
+  unsigned int __rect_packed_top_L988R__L989R = 0U;
   __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 1U;
   __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 = root;
   __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local1 = str;
   __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local2 = substring_index;
-  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 = node_count;
   ++__rect_packed_top_L988R__L989R;
   __rect_func_L0_L988R__L989R:
   if (0U == __rect_packed_top_L988R__L989R) 
@@ -68,30 +67,31 @@ int insert_node(struct node *root,char *str,int substring_index,int *node_count)
   if (2U == __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location) 
     goto __rect_func_L2_L988R__L989R;
   __rect_func_L1_L988R__L989R:
-  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 =  *__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local1;
-  if (__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 == '%') {
+  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 =  *__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local1;
+  if (__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 == '%') {
     __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 -> substring_index = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local2;
     __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _return = 0;
     goto __rect_func_L0_L988R__L989R;
   }
-  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 >= 'a' && __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",44,__PRETTY_FUNCTION__);
-  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local5 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 - 'a';
-  if (!__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local5]) {
-    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local5] = new_node();
-     *__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 += 1;
+   else {
+    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 >= 'a' && __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",45,__PRETTY_FUNCTION__);
+    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 - 'a';
+    if (!__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4]) {
+      __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4] = new_node();
+      node_count += 1;
+    }
+    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 2U;
+    __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local2 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local2;
+    __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local1 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local1 + 1;
+    __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local0 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4];
+    ++__rect_packed_top_L988R__L989R;
+    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 1U;
+    goto __rect_func_L1_L988R__L989R;
+    __rect_func_L2_L988R__L989R:
+    int __rect_ret0_L988R__L989R = __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . _return;
+    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _return = __rect_ret0_L988R__L989R + 1;
+    goto __rect_func_L0_L988R__L989R;
   }
-  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 2U;
-  __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local3 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3;
-  __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local2 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local2;
-  __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local1 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local1 + 1;
-  __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local0 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local5];
-  ++__rect_packed_top_L988R__L989R;
-  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 1U;
-  goto __rect_func_L1_L988R__L989R;
-  __rect_func_L2_L988R__L989R:
-  int __rect_ret0_L988R__L989R = __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . _return;
-  __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _return = __rect_ret0_L988R__L989R + 1;
-  goto __rect_func_L0_L988R__L989R;
   goto __rect_func_L0_L988R__L989R;
 }
 /*
@@ -171,7 +171,7 @@ struct __rect_packed_type_L994R__L995R
 void delete_tree(struct node *root)
 {
   struct __rect_packed_type_L994R__L995R __rect_packed_var_L994R__L995R[1024U];
-  unsigned int __rect_packed_top_L994R__L995R;
+  unsigned int __rect_packed_top_L994R__L995R = 0U;
   __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location = 1U;
   __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local0 = root;
   ++__rect_packed_top_L994R__L995R;
@@ -236,11 +236,13 @@ void AhoCorasick_search(int substring_length,char *substrings,char *query,int *s
 #pragma HLS INTERFACE s_axilite port=query_indexes bundle=control
   
 #pragma HLS INTERFACE s_axilite port=return bundle=control
+  char *substring_buf = (char *)(malloc(sizeof(char ) * substring_length));
+  for (int i = 0; i < substring_length; i++) {
+    substring_buf[i] = substrings[i];
+  }
   struct node *root = new_node();
-  int node_count = 1;
   for (int offset = 0; offset < substring_length; ) {
-    char *substrings_curr = substrings + offset;
-    offset += insert_node(root,substrings_curr,offset,&node_count) + 1;
+    offset += insert_node(root,substring_buf + offset,offset) + 1;
   }
   build_AhoCorasick(root,node_count);
   query_AhoCorasick(root,query,substring_indexes,query_indexes);

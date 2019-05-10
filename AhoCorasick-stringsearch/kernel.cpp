@@ -27,30 +27,30 @@ node *new_node() {
     return curr;
 }
 
+int node_count = 1;
+
 /*
  * Insert a new trie node with string as content.
  * The node will be inserted to the trie specified by root.
  *
  * Return: the '%' location of the string.
  */
-int insert_node(node *root, char *str,
-        int substring_index, int *node_count) {
+int insert_node(node *root, char *str, int substring_index) {
     char ch = *str;
+    
     if (ch == '%') {
         root->substring_index = substring_index;
         return 0;
+    } else {
+        assert(ch >= 'a' && ch <= 'z');
+        int idx = ch - 'a';
+        if (!root->next[idx]) {
+            root->next[idx] = new_node();
+            node_count += 1;
+        }
+
+        return insert_node(root->next[idx], str + 1, substring_index) + 1;
     }
-
-    assert(ch >= 'a' && ch <= 'z');
-    int idx = ch - 'a';
-
-    if (!root->next[idx]) {
-        root->next[idx] = new_node();
-        *node_count += 1;
-    }
-
-    return insert_node(root->next[idx], str + 1,
-            substring_index, node_count) + 1;
 }
 
 /*
@@ -160,12 +160,15 @@ void AhoCorasick_search(
 #pragma HLS INTERFACE s_axilite port=query_indexes bundle=control
 #pragma HLS INTERFACE s_axilite port=return bundle=control
 
+    char *substring_buf = (char *)malloc(sizeof(char) * substring_length);
+    for (int i = 0; i < substring_length; i++) {
+        substring_buf[i] = substrings[i];
+    }
+
     node *root = new_node();
-    int node_count = 1;
 
     for (int offset = 0; offset < substring_length; ) {
-        char *substrings_curr = substrings + offset;
-        offset += insert_node(root, substrings_curr, offset, &node_count) + 1;
+        offset += insert_node(root, substring_buf + offset, offset) + 1;
     }
 
     build_AhoCorasick(root, node_count);
