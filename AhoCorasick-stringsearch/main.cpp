@@ -25,9 +25,17 @@ int main(void) {
     std::vector<int> substring_indexes(worst_case_matches);
     std::vector<int> query_indexes(worst_case_matches);
 
+    bool fallback = false;
+
     AhoCorasick_search(substrings.size(),
             substrings_buffer.data(), query_buffer.data(),
-            substring_indexes.data(), query_indexes.data());
+            substring_indexes.data(), query_indexes.data(),
+            &fallback);
+    
+    if (fallback) {
+        std::cout << "INFO: falling back!" << std::endl;
+        return 1;
+    }
 
     for (int i = 0; ; i++) {
         if (substring_indexes[i] == -1) break;

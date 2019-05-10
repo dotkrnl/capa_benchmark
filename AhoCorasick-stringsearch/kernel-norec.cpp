@@ -18,10 +18,16 @@ struct node
   struct node *next[26];
 }
 ;
+int node_count = 1;
+bool g_fallback = false;
 
 struct node *new_node()
 {
   struct node *curr = (struct node *)(malloc(sizeof(struct node )));
+  if (!curr) {
+    g_fallback = true;
+    return 0L;
+  }
   curr -> substring_index = - 1;
   curr -> fail = 0L;
   for (int i = 0; i < 26; i++) {
@@ -29,7 +35,6 @@ struct node *new_node()
   }
   return curr;
 }
-int node_count = 1;
 /*
  * Insert a new trie node with string as content.
  * The node will be inserted to the trie specified by root.
@@ -74,7 +79,7 @@ int insert_node(struct node *root,char *str,int substring_index)
     goto __rect_func_L0_L988R__L989R;
   }
    else {
-    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 >= 'a' && __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",45,__PRETTY_FUNCTION__);
+    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 >= 'a' && __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",47,__PRETTY_FUNCTION__);
     __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 - 'a';
     if (!__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4]) {
       __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4] = new_node();
@@ -85,6 +90,9 @@ int insert_node(struct node *root,char *str,int substring_index)
     __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local1 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local1 + 1;
     __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local0 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4];
     ++__rect_packed_top_L988R__L989R;
+    if (__rect_packed_top_L988R__L989R == 1024U) 
+g_fallback = true;
+      0;
     __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 1U;
     goto __rect_func_L1_L988R__L989R;
     __rect_func_L2_L988R__L989R:
@@ -101,6 +109,10 @@ int insert_node(struct node *root,char *str,int substring_index)
 void build_AhoCorasick(struct node *root,int node_count)
 {
   struct node **queue = (struct node **)(malloc(sizeof(struct node *) * node_count));
+  if (!queue) {
+    g_fallback = true;
+    return ;
+  }
 // initialize queue
   int head = 0;
   int tail = 1;
@@ -136,7 +148,7 @@ void query_AhoCorasick(struct node *root,char *query,int *substring_indexes,int 
     char ch = query[offset];
     if (ch == '%') 
       break; 
-    ch >= 'a' && ch <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",99,__PRETTY_FUNCTION__);
+    ch >= 'a' && ch <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",102,__PRETTY_FUNCTION__);
     int idx = ch - 'a';
 // follow fail link if not matched in curr
     while(!curr -> next[idx] && curr != root)
@@ -191,6 +203,9 @@ void delete_tree(struct node *root)
     __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location = 2U;
     __rect_packed_var_L994R__L995R[1 + __rect_packed_top_L994R__L995R] . local0 = __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local0 -> next[__rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local1];
     ++__rect_packed_top_L994R__L995R;
+    if (__rect_packed_top_L994R__L995R == 1024U) 
+g_fallback = true;
+      0;
     __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location = 1U;
     goto __rect_func_L1_L994R__L995R;
     __rect_func_L2_L994R__L995R:
@@ -214,7 +229,7 @@ extern "C" {
  *   query_indexes: an output array, the corresponding indexes in query.
  */
 
-void AhoCorasick_search(int substring_length,char *substrings,char *query,int *substring_indexes,int *query_indexes)
+void AhoCorasick_search(int substring_length,char *substrings,char *query,int *substring_indexes,int *query_indexes,bool *fallback)
 {
   
 #pragma HLS INTERFACE m_axi port=substrings offset=slave bundle=gmem
@@ -224,6 +239,8 @@ void AhoCorasick_search(int substring_length,char *substrings,char *query,int *s
 #pragma HLS INTERFACE m_axi port=substring_indexes offset=slave bundle=gmem
   
 #pragma HLS INTERFACE m_axi port=query_indexes offset=slave bundle=gmem
+  
+#pragma HLS INTERFACE m_axi port=fallback offset=slave bundle=gmem
   
 #pragma HLS INTERFACE s_axilite port=substring_length bundle=control
   
@@ -235,8 +252,14 @@ void AhoCorasick_search(int substring_length,char *substrings,char *query,int *s
   
 #pragma HLS INTERFACE s_axilite port=query_indexes bundle=control
   
+#pragma HLS INTERFACE s_axilite port=fallback bundle=control
+  
 #pragma HLS INTERFACE s_axilite port=return bundle=control
   char *substring_buf = (char *)(malloc(sizeof(char ) * substring_length));
+  if (!substring_buf) {
+    g_fallback = true;
+    goto fail;
+  }
   for (int i = 0; i < substring_length; i++) {
     substring_buf[i] = substrings[i];
   }
@@ -247,5 +270,7 @@ void AhoCorasick_search(int substring_length,char *substrings,char *query,int *s
   build_AhoCorasick(root,node_count);
   query_AhoCorasick(root,query,substring_indexes,query_indexes);
   delete_tree(root);
+  fail:
+   *fallback = g_fallback;
 }
 }

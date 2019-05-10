@@ -17,8 +17,12 @@ struct node {
     node *next[26];
 };
 
+int node_count = 1;
+bool g_fallback = false;
+
 node *new_node() {
     node *curr = (node *)malloc(sizeof(node));
+    if (!curr) { g_fallback = true; return NULL; }
     curr->substring_index = -1;
     curr->fail = NULL;
     for (int i = 0; i < 26; i++) {
@@ -26,8 +30,6 @@ node *new_node() {
     }
     return curr;
 }
-
-int node_count = 1;
 
 /*
  * Insert a new trie node with string as content.
@@ -58,6 +60,7 @@ int insert_node(node *root, char *str, int substring_index) {
  */
 void build_AhoCorasick(node *root, int node_count) {
     node **queue = (node **)malloc(sizeof(node *) * node_count);
+    if (!queue) { g_fallback = true; return; }
 
     // initialize queue
     int head = 0, tail = 1;
@@ -148,24 +151,27 @@ extern "C" {
  */
 void AhoCorasick_search(
         int substring_length, char *substrings, char *query,
-        int *substring_indexes, int *query_indexes) {
+        int *substring_indexes, int *query_indexes, bool *fallback) {
 #pragma HLS INTERFACE m_axi port=substrings offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=query offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=substring_indexes offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=query_indexes offset=slave bundle=gmem
+#pragma HLS INTERFACE m_axi port=fallback offset=slave bundle=gmem
 #pragma HLS INTERFACE s_axilite port=substring_length bundle=control
 #pragma HLS INTERFACE s_axilite port=substrings bundle=control
 #pragma HLS INTERFACE s_axilite port=query bundle=control
 #pragma HLS INTERFACE s_axilite port=substring_indexes bundle=control
 #pragma HLS INTERFACE s_axilite port=query_indexes bundle=control
+#pragma HLS INTERFACE s_axilite port=fallback bundle=control
 #pragma HLS INTERFACE s_axilite port=return bundle=control
 
+    node *root = new_node();
     char *substring_buf = (char *)malloc(sizeof(char) * substring_length);
+    if (!substring_buf) { g_fallback = true; goto fail; }
+
     for (int i = 0; i < substring_length; i++) {
         substring_buf[i] = substrings[i];
     }
-
-    node *root = new_node();
 
     for (int offset = 0; offset < substring_length; ) {
         offset += insert_node(root, substring_buf + offset, offset) + 1;
@@ -174,6 +180,9 @@ void AhoCorasick_search(
     build_AhoCorasick(root, node_count);
     query_AhoCorasick(root, query, substring_indexes, query_indexes);
     delete_tree(root);
+
+fail:
+    *fallback = g_fallback;
 }
 
 };

@@ -415,10 +415,16 @@ void __dst_alloc_free__dmemclass_node(__dst_alloc_size_t ptr) {
     }
     __dst_alloc_list_push__dmemclass_node(bucket, __dst_alloc_index_for_node__dmemclass_node(i, bucket));
 }
+int node_count = 1;
+bool g_fallback = false;
 
 __didxclass_node new_node()
 {
   __didxclass_node curr = (__didxclass_node )(__dst_alloc_malloc__dmemclass_node(sizeof(struct node )));
+  if (!curr) {
+    g_fallback = true;
+    return 0L;
+  }
   (&(__dmemclass_node + curr + 0U - 1U) -> _data) -> substring_index = - 1;
   (&(__dmemclass_node + curr + 0U - 1U) -> _data) -> fail = 0L;
   for (int i = 0; i < 26; i++) {
@@ -426,7 +432,6 @@ __didxclass_node new_node()
   }
   return curr;
 }
-int node_count = 1;
 /*
  * Insert a new trie node with string as content.
  * The node will be inserted to the trie specified by root.
@@ -471,7 +476,7 @@ int insert_node(__didxclass_node root,__didxc str,int substring_index)
     goto __rect_func_L0_L988R__L989R;
   }
    else {
-    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 >= 'a' && __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",45,__PRETTY_FUNCTION__);
+    __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 >= 'a' && __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",47,__PRETTY_FUNCTION__);
     __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local3 - 'a';
     if (!(&(__dmemclass_node + __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 + 0U - 1U) -> _data) -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4]) {
       (&(__dmemclass_node + __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 + 0U - 1U) -> _data) -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4] = new_node();
@@ -482,6 +487,9 @@ int insert_node(__didxclass_node root,__didxc str,int substring_index)
     __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local1 = __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local1 + 1;
     __rect_packed_var_L988R__L989R[1 + __rect_packed_top_L988R__L989R] . local0 = (&(__dmemclass_node + __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 + 0U - 1U) -> _data) -> next[__rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local4];
     ++__rect_packed_top_L988R__L989R;
+    if (__rect_packed_top_L988R__L989R == 1 << ARRAY_LOG) 
+      g_fallback = true;
+    0;
     __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 1U;
     goto __rect_func_L1_L988R__L989R;
     __rect_func_L2_L988R__L989R:
@@ -500,6 +508,10 @@ int insert_node(__didxclass_node root,__didxc str,int substring_index)
 void build_AhoCorasick(__didxclass_node root,int node_count)
 {
   __didx__Pb__class_node__Pe__ queue = (__didx__Pb__class_node__Pe__ )(__dst_alloc_malloc__dmemUi(sizeof(struct node *) * node_count));
+  if (!queue) {
+    g_fallback = true;
+    return ;
+  }
 // initialize queue
   int head = 0;
   int tail = 1;
@@ -535,7 +547,7 @@ void query_AhoCorasick(__didxclass_node root,char *query,int *substring_indexes,
     char ch = query[offset];
     if (ch == '%') 
       break; 
-    ch >= 'a' && ch <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",99,__PRETTY_FUNCTION__);
+    ch >= 'a' && ch <= 'z'?(static_cast < void  >  (0)) : __assert_fail("ch >= 'a' && ch <= 'z'","kernel.cpp",102,__PRETTY_FUNCTION__);
     int idx = ch - 'a';
 // follow fail link if not matched in curr
     while(!(&(__dmemclass_node + curr + 0U - 1U) -> _data) -> next[idx] && curr != root)
@@ -590,6 +602,9 @@ void delete_tree(__didxclass_node root)
     __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location = 2U;
     __rect_packed_var_L994R__L995R[1 + __rect_packed_top_L994R__L995R] . local0 = (&(__dmemclass_node + __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local0 + 0U - 1U) -> _data) -> next[__rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local1];
     ++__rect_packed_top_L994R__L995R;
+    if (__rect_packed_top_L994R__L995R == 1 << ARRAY_LOG) 
+      g_fallback = true;
+    0;
     __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location = 1U;
     goto __rect_func_L1_L994R__L995R;
     __rect_func_L2_L994R__L995R:
@@ -613,7 +628,7 @@ extern "C" {
  *   query_indexes: an output array, the corresponding indexes in query.
  */
 
-void AhoCorasick_search(int substring_length,char *substrings,char *query,int *substring_indexes,int *query_indexes)
+void AhoCorasick_search(int substring_length,char *substrings,char *query,int *substring_indexes,int *query_indexes,bool *fallback)
 {
   
 #pragma HLS INTERFACE m_axi port=substrings offset=slave bundle=gmem
@@ -623,6 +638,8 @@ void AhoCorasick_search(int substring_length,char *substrings,char *query,int *s
 #pragma HLS INTERFACE m_axi port=substring_indexes offset=slave bundle=gmem
   
 #pragma HLS INTERFACE m_axi port=query_indexes offset=slave bundle=gmem
+  
+#pragma HLS INTERFACE m_axi port=fallback offset=slave bundle=gmem
   
 #pragma HLS INTERFACE s_axilite port=substring_length bundle=control
   
@@ -634,17 +651,25 @@ void AhoCorasick_search(int substring_length,char *substrings,char *query,int *s
   
 #pragma HLS INTERFACE s_axilite port=query_indexes bundle=control
   
+#pragma HLS INTERFACE s_axilite port=fallback bundle=control
+  
 #pragma HLS INTERFACE s_axilite port=return bundle=control
+  __didxclass_node root = new_node();
   __didxc substring_buf = (__didxc )(__dst_alloc_malloc__dmemc(sizeof(char ) * substring_length));
+  if (!substring_buf) {
+    g_fallback = true;
+    goto fail;
+  }
   for (int i = 0; i < substring_length; i++) {
     (&(__dmemc + substring_buf + i - 1U) -> _data)[0U] = substrings[i];
   }
-  __didxclass_node root = new_node();
   for (int offset = 0; offset < substring_length; ) {
     offset += insert_node(root,substring_buf + offset,offset) + 1;
   }
   build_AhoCorasick(root,node_count);
   query_AhoCorasick(root,query,substring_indexes,query_indexes);
   delete_tree(root);
+  fail:
+   *fallback = g_fallback;
 }
 }
