@@ -13,7 +13,7 @@ struct __dst_alloc_list__dmemUi
   unsigned int _data;
 }
 ;
-struct __dst_alloc_list__dmemUi __dmemUi[1024U];
+struct __dst_alloc_list__dmemUi __dmemUi[1 << ARRAY_LOG];
 unsigned int __dst_alloc_malloc__dmemUi(unsigned int );
 void __dst_alloc_free__dmemUi(unsigned int );
 # 1 "<stdin>"
@@ -26,7 +26,7 @@ void __dst_alloc_free__dmemUi(unsigned int );
 typedef unsigned int __dst_alloc_size_t;
 typedef unsigned char __dst_alloc_bucket_size_t;
 # 73 "<stdin>"
-unsigned char __dst_alloc_node_split__dmemUi[(1 << (10 - 1)) / 8];
+unsigned char __dst_alloc_node_split__dmemUi[(1 << (ARRAY_LOG - 1)) / 8];
 static unsigned char __dst_alloc_test_parent_split__dmemUi(__dst_alloc_size_t index) {
     index = (index - 1) / 2;
     return (__dst_alloc_node_split__dmemUi[index / 8] >> (index % 8)) & 1;
@@ -39,10 +39,10 @@ static void __dst_alloc_clr_parent_split__dmemUi(__dst_alloc_size_t index) {
     index = (index - 1) / 2;
     __dst_alloc_node_split__dmemUi[index / 8] &= ~(1 << (index % 8));
 }
-struct __dst_alloc_list_base_t __dst_alloc_buckets__dmemUi[10] = {{1, 1}};
+struct __dst_alloc_list_base_t __dst_alloc_buckets__dmemUi[ARRAY_LOG] = {{1, 1}};
 static __dst_alloc_bucket_size_t __dst_alloc_bucket_for_request__dmemUi(
         __dst_alloc_size_t request) {
-    __dst_alloc_bucket_size_t bucket = 10 - 1;
+    __dst_alloc_bucket_size_t bucket = ARRAY_LOG - 1;
     __dst_alloc_size_t size = 2;
     while (size < request) {
         size <<= 1;
@@ -80,15 +80,15 @@ static __dst_alloc_size_t __dst_alloc_list_pop__dmemUi(
 static __dst_alloc_size_t __dst_alloc_index_for_node__dmemUi(
         __dst_alloc_size_t bucket_index,
         __dst_alloc_bucket_size_t bucket) {
-    return 1 + ((bucket_index - (1 << bucket) + 1) << (10 - bucket));
+    return 1 + ((bucket_index - (1 << bucket) + 1) << (ARRAY_LOG - bucket));
 }
 static __dst_alloc_size_t __dst_alloc_node_for_index__dmemUi(
         __dst_alloc_size_t global_index,
         __dst_alloc_bucket_size_t bucket) {
-    return ((global_index - 1) >> (10 - bucket)) + (1 << bucket) - 1;
+    return ((global_index - 1) >> (ARRAY_LOG - bucket)) + (1 << bucket) - 1;
 }
 void __dst_alloc_init__dmemUi() {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < ARRAY_LOG; i++) {
         __dst_alloc_buckets__dmemUi[i].prev = 0;
         __dst_alloc_buckets__dmemUi[i].next = 0;
     }
@@ -96,7 +96,7 @@ void __dst_alloc_init__dmemUi() {
 }
 __dst_alloc_size_t __dst_alloc_malloc__dmemUi(__dst_alloc_size_t request) {
     request = request / sizeof(unsigned int);
-    if (request > (1 << 10)) return 0;
+    if (request > (1 << ARRAY_LOG)) return 0;
     __dst_alloc_bucket_size_t bucket =
         __dst_alloc_bucket_for_request__dmemUi(request);
     __dst_alloc_bucket_size_t original_bucket = bucket;
@@ -141,7 +141,7 @@ struct __dst_alloc_list__dmemc
   char _data;
 }
 ;
-struct __dst_alloc_list__dmemc __dmemc[1024U];
+struct __dst_alloc_list__dmemc __dmemc[1 << ARRAY_LOG];
 unsigned int __dst_alloc_malloc__dmemc(unsigned int );
 void __dst_alloc_free__dmemc(unsigned int );
 # 1 "<stdin>"
@@ -154,7 +154,7 @@ void __dst_alloc_free__dmemc(unsigned int );
 typedef unsigned int __dst_alloc_size_t;
 typedef unsigned char __dst_alloc_bucket_size_t;
 # 73 "<stdin>"
-unsigned char __dst_alloc_node_split__dmemc[(1 << (10 - 1)) / 8];
+unsigned char __dst_alloc_node_split__dmemc[(1 << (ARRAY_LOG - 1)) / 8];
 static unsigned char __dst_alloc_test_parent_split__dmemc(__dst_alloc_size_t index) {
     index = (index - 1) / 2;
     return (__dst_alloc_node_split__dmemc[index / 8] >> (index % 8)) & 1;
@@ -167,10 +167,10 @@ static void __dst_alloc_clr_parent_split__dmemc(__dst_alloc_size_t index) {
     index = (index - 1) / 2;
     __dst_alloc_node_split__dmemc[index / 8] &= ~(1 << (index % 8));
 }
-struct __dst_alloc_list_base_t __dst_alloc_buckets__dmemc[10] = {{1, 1}};
+struct __dst_alloc_list_base_t __dst_alloc_buckets__dmemc[ARRAY_LOG] = {{1, 1}};
 static __dst_alloc_bucket_size_t __dst_alloc_bucket_for_request__dmemc(
         __dst_alloc_size_t request) {
-    __dst_alloc_bucket_size_t bucket = 10 - 1;
+    __dst_alloc_bucket_size_t bucket = ARRAY_LOG - 1;
     __dst_alloc_size_t size = 2;
     while (size < request) {
         size <<= 1;
@@ -208,15 +208,15 @@ static __dst_alloc_size_t __dst_alloc_list_pop__dmemc(
 static __dst_alloc_size_t __dst_alloc_index_for_node__dmemc(
         __dst_alloc_size_t bucket_index,
         __dst_alloc_bucket_size_t bucket) {
-    return 1 + ((bucket_index - (1 << bucket) + 1) << (10 - bucket));
+    return 1 + ((bucket_index - (1 << bucket) + 1) << (ARRAY_LOG - bucket));
 }
 static __dst_alloc_size_t __dst_alloc_node_for_index__dmemc(
         __dst_alloc_size_t global_index,
         __dst_alloc_bucket_size_t bucket) {
-    return ((global_index - 1) >> (10 - bucket)) + (1 << bucket) - 1;
+    return ((global_index - 1) >> (ARRAY_LOG - bucket)) + (1 << bucket) - 1;
 }
 void __dst_alloc_init__dmemc() {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < ARRAY_LOG; i++) {
         __dst_alloc_buckets__dmemc[i].prev = 0;
         __dst_alloc_buckets__dmemc[i].next = 0;
     }
@@ -224,7 +224,7 @@ void __dst_alloc_init__dmemc() {
 }
 __dst_alloc_size_t __dst_alloc_malloc__dmemc(__dst_alloc_size_t request) {
     request = request / sizeof(char);
-    if (request > (1 << 10)) return 0;
+    if (request > (1 << ARRAY_LOG)) return 0;
     __dst_alloc_bucket_size_t bucket =
         __dst_alloc_bucket_for_request__dmemc(request);
     __dst_alloc_bucket_size_t original_bucket = bucket;
@@ -294,7 +294,7 @@ struct __dst_alloc_list__dmemclass_node
   struct node _data;
 }
 ;
-struct __dst_alloc_list__dmemclass_node __dmemclass_node[1024U];
+struct __dst_alloc_list__dmemclass_node __dmemclass_node[1 << ARRAY_LOG];
 unsigned int __dst_alloc_malloc__dmemclass_node(unsigned int );
 void __dst_alloc_free__dmemclass_node(unsigned int );
 # 1 "<stdin>"
@@ -307,7 +307,7 @@ void __dst_alloc_free__dmemclass_node(unsigned int );
 typedef unsigned int __dst_alloc_size_t;
 typedef unsigned char __dst_alloc_bucket_size_t;
 # 73 "<stdin>"
-unsigned char __dst_alloc_node_split__dmemclass_node[(1 << (10 - 1)) / 8];
+unsigned char __dst_alloc_node_split__dmemclass_node[(1 << (ARRAY_LOG - 1)) / 8];
 static unsigned char __dst_alloc_test_parent_split__dmemclass_node(__dst_alloc_size_t index) {
     index = (index - 1) / 2;
     return (__dst_alloc_node_split__dmemclass_node[index / 8] >> (index % 8)) & 1;
@@ -320,10 +320,10 @@ static void __dst_alloc_clr_parent_split__dmemclass_node(__dst_alloc_size_t inde
     index = (index - 1) / 2;
     __dst_alloc_node_split__dmemclass_node[index / 8] &= ~(1 << (index % 8));
 }
-struct __dst_alloc_list_base_t __dst_alloc_buckets__dmemclass_node[10] = {{1, 1}};
+struct __dst_alloc_list_base_t __dst_alloc_buckets__dmemclass_node[ARRAY_LOG] = {{1, 1}};
 static __dst_alloc_bucket_size_t __dst_alloc_bucket_for_request__dmemclass_node(
         __dst_alloc_size_t request) {
-    __dst_alloc_bucket_size_t bucket = 10 - 1;
+    __dst_alloc_bucket_size_t bucket = ARRAY_LOG - 1;
     __dst_alloc_size_t size = 2;
     while (size < request) {
         size <<= 1;
@@ -361,15 +361,15 @@ static __dst_alloc_size_t __dst_alloc_list_pop__dmemclass_node(
 static __dst_alloc_size_t __dst_alloc_index_for_node__dmemclass_node(
         __dst_alloc_size_t bucket_index,
         __dst_alloc_bucket_size_t bucket) {
-    return 1 + ((bucket_index - (1 << bucket) + 1) << (10 - bucket));
+    return 1 + ((bucket_index - (1 << bucket) + 1) << (ARRAY_LOG - bucket));
 }
 static __dst_alloc_size_t __dst_alloc_node_for_index__dmemclass_node(
         __dst_alloc_size_t global_index,
         __dst_alloc_bucket_size_t bucket) {
-    return ((global_index - 1) >> (10 - bucket)) + (1 << bucket) - 1;
+    return ((global_index - 1) >> (ARRAY_LOG - bucket)) + (1 << bucket) - 1;
 }
 void __dst_alloc_init__dmemclass_node() {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < ARRAY_LOG; i++) {
         __dst_alloc_buckets__dmemclass_node[i].prev = 0;
         __dst_alloc_buckets__dmemclass_node[i].next = 0;
     }
@@ -377,7 +377,7 @@ void __dst_alloc_init__dmemclass_node() {
 }
 __dst_alloc_size_t __dst_alloc_malloc__dmemclass_node(__dst_alloc_size_t request) {
     request = request / sizeof(struct ::node);
-    if (request > (1 << 10)) return 0;
+    if (request > (1 << ARRAY_LOG)) return 0;
     __dst_alloc_bucket_size_t bucket =
         __dst_alloc_bucket_for_request__dmemclass_node(request);
     __dst_alloc_bucket_size_t original_bucket = bucket;
@@ -448,7 +448,7 @@ struct __rect_packed_type_L988R__L989R
 
 int insert_node(__didxclass_node root,__didxc str,int substring_index)
 {
-  struct __rect_packed_type_L988R__L989R __rect_packed_var_L988R__L989R[1024U];
+  struct __rect_packed_type_L988R__L989R __rect_packed_var_L988R__L989R[1 << ARRAY_LOG];
   unsigned int __rect_packed_top_L988R__L989R = 0U;
   __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . _location = 1U;
   __rect_packed_var_L988R__L989R[0 + __rect_packed_top_L988R__L989R] . local0 = root;
@@ -569,7 +569,7 @@ struct __rect_packed_type_L994R__L995R
 
 void delete_tree(__didxclass_node root)
 {
-  struct __rect_packed_type_L994R__L995R __rect_packed_var_L994R__L995R[1024U];
+  struct __rect_packed_type_L994R__L995R __rect_packed_var_L994R__L995R[1 << ARRAY_LOG];
   unsigned int __rect_packed_top_L994R__L995R = 0U;
   __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . _location = 1U;
   __rect_packed_var_L994R__L995R[0 + __rect_packed_top_L994R__L995R] . local0 = root;
