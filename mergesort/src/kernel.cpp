@@ -12,31 +12,42 @@ struct Node
 
 /* function prototypes */
 struct Node* SortedMerge(struct Node* a, struct Node* b);
-void FrontBackSplit(struct Node* source,
-		struct Node** frontRef, struct Node** backRef);
 
 /* sorts the linked list by changing next pointers (not data) */
-void MergeSort(struct Node** headRef)
+struct Node* MergeSort(struct Node* head)
 {
-struct Node* head = *headRef;
-struct Node* a;
-struct Node* b;
-
 /* Base case -- length 0 or 1 */
 if ((head == NULL) || (head->next == NULL))
 {
-	return;
+	return head;
 }
 
-/* Split head into 'a' and 'b' sublists */
-FrontBackSplit(head, &a, &b);
+struct Node* fast = head->next;
+struct Node* slow = head;
+
+/* Advance 'fast' two nodes, and advance 'slow' one node */
+while (fast != NULL)
+{
+fast = fast->next;
+if (fast != NULL)
+{
+    slow = slow->next;
+    fast = fast->next;
+}
+}
+
+/* 'slow' is before the midpoint in the list, so split it in two
+at that point. */
+struct Node* a = head;
+struct Node* b = slow->next;
+slow->next = NULL;
 
 /* Recursively sort the sublists */
-MergeSort(&a);
-MergeSort(&b);
+a = MergeSort(a);
+b = MergeSort(b);
 
 /* answer = merge the two sorted lists together */
-*headRef = SortedMerge(a, b);
+return SortedMerge(a, b);
 }
 
 /* See https://www.geeksforgeeks.org/?p=3622 for details of this
@@ -63,37 +74,6 @@ else
 	result->next = SortedMerge(a, b->next);
 }
 return(result);
-}
-
-/* UTILITY FUNCTIONS */
-/* Split the nodes of the given list into front and back halves,
-	and return the two lists using the reference parameters.
-	If the length is odd, the extra node should go in the front list.
-	Uses the fast/slow pointer strategy. */
-void FrontBackSplit(struct Node* source,
-		struct Node** frontRef, struct Node** backRef)
-{
-		struct Node* fast;
-		struct Node* slow;
-	slow = source;
-	fast = source->next;
-
-	/* Advance 'fast' two nodes, and advance 'slow' one node */
-	while (fast != NULL)
-	{
-	fast = fast->next;
-	if (fast != NULL)
-	{
-		slow = slow->next;
-		fast = fast->next;
-	}
-	}
-
-	/* 'slow' is before the midpoint in the list, so split it in two
-	at that point. */
-	*frontRef = source;
-	*backRef = slow->next;
-	slow->next = NULL;
 }
 
 /* Function to print nodes in a given linked list */
@@ -129,7 +109,7 @@ new_node->next = (*head_ref);
 
 extern "C" {
 /* Drier program to test above functions*/
-void process_top(int n, int *input, int *output, bool *fallback)
+void process_top(int n, int *input, int *output, int *fallback)
 {
 #pragma HLS INTERFACE m_axi port=input offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=output offset=slave bundle=gmem
@@ -149,7 +129,7 @@ for (int i = 0; i < n; i++) {
 }
 
 /* Sort the above created Linked List */
-MergeSort(&a);
+a = MergeSort(a);
 
 output = printList(a, output);
 
