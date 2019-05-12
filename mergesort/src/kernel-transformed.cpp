@@ -219,23 +219,23 @@ at that point. */
   __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . local4 = (&(__dmemclass_Node + __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . local2 + 0U - 1U) -> _data) -> next;
   (&(__dmemclass_Node + __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . local2 + 0U - 1U) -> _data) -> next = 0L;
 /* Recursively sort the sublists */
+  if (__rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R + 1U == 1 << ARRAY_LOG) 
+g_fallback = true;
+    0;
   __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . _location = 2U;
   __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[1 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . local0 = __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . local3;
   ++__rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R;
-  if (__rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R == 1 << ARRAY_LOG) 
-g_fallback = true;
-    0;
   __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . _location = 1U;
   goto __rect_func_L1_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R;
   __rect_func_L2_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R:
   __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . __rect_packed_type_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R::_ret0 = (__rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[1 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . _return);
   __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . local3 = __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . __rect_packed_type_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R::_ret0;
+  if (__rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R + 1U == 1 << ARRAY_LOG) 
+g_fallback = true;
+    0;
   __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . _location = 3U;
   __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[1 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . local0 = __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . local4;
   ++__rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R;
-  if (__rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R == 1 << ARRAY_LOG) 
-g_fallback = true;
-    0;
   __rect_packed_var_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R[0 + __rect_packed_top_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R] . _location = 1U;
   goto __rect_func_L1_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R;
   __rect_func_L3_MergeSort___Fb_L1R_Gb__L1R__Fe___L999R:
@@ -293,13 +293,13 @@ __didxclass_Node SortedMerge(__didxclass_Node a,__didxclass_Node b)
 /* Pick either a or b, and recur */
   if ((&(__dmemclass_Node + __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . local0 + 0U - 1U) -> _data) -> data <= (&(__dmemclass_Node + __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . local1 + 0U - 1U) -> _data) -> data) {
     __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . local2 = __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . local0;
+    if (__rect_packed_top_L997R__L998R + 1U == 1 << ARRAY_LOG) 
+g_fallback = true;
+      0;
     __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . _location = 2U;
     __rect_packed_var_L997R__L998R[1 + __rect_packed_top_L997R__L998R] . local1 = __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . local1;
     __rect_packed_var_L997R__L998R[1 + __rect_packed_top_L997R__L998R] . local0 = (&(__dmemclass_Node + __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . local0 + 0U - 1U) -> _data) -> next;
     ++__rect_packed_top_L997R__L998R;
-    if (__rect_packed_top_L997R__L998R == 1 << ARRAY_LOG) 
-g_fallback = true;
-      0;
     __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . _location = 1U;
     goto __rect_func_L1_L997R__L998R;
     __rect_func_L2_L997R__L998R:
@@ -308,13 +308,13 @@ g_fallback = true;
   }
    else {
     __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . local2 = __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . local1;
+    if (__rect_packed_top_L997R__L998R + 1U == 1 << ARRAY_LOG) 
+g_fallback = true;
+      0;
     __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . _location = 3U;
     __rect_packed_var_L997R__L998R[1 + __rect_packed_top_L997R__L998R] . local1 = (&(__dmemclass_Node + __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . local1 + 0U - 1U) -> _data) -> next;
     __rect_packed_var_L997R__L998R[1 + __rect_packed_top_L997R__L998R] . local0 = __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . local0;
     ++__rect_packed_top_L997R__L998R;
-    if (__rect_packed_top_L997R__L998R == 1 << ARRAY_LOG) 
-g_fallback = true;
-      0;
     __rect_packed_var_L997R__L998R[0 + __rect_packed_top_L997R__L998R] . _location = 1U;
     goto __rect_func_L1_L997R__L998R;
     __rect_func_L3_L997R__L998R:
