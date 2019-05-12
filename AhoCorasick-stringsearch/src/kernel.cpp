@@ -150,20 +150,22 @@ extern "C" {
  *   query_indexes: an output array, the corresponding indexes in query.
  */
 void AhoCorasick_search(
-        int substring_length, char *substrings, char *query,
-        int *substring_indexes, int *query_indexes, bool *fallback) {
+        int *substring_length_p, char *substrings, char *query,
+        int *substring_indexes, int *query_indexes, int *fallback) {
+#pragma HLS INTERFACE m_axi port=substring_length_p offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=substrings offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=query offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=substring_indexes offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=query_indexes offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=fallback offset=slave bundle=gmem
-#pragma HLS INTERFACE s_axilite port=substring_length bundle=control
+#pragma HLS INTERFACE s_axilite port=substring_length_p bundle=control
 #pragma HLS INTERFACE s_axilite port=substrings bundle=control
 #pragma HLS INTERFACE s_axilite port=query bundle=control
 #pragma HLS INTERFACE s_axilite port=substring_indexes bundle=control
 #pragma HLS INTERFACE s_axilite port=query_indexes bundle=control
 #pragma HLS INTERFACE s_axilite port=fallback bundle=control
 #pragma HLS INTERFACE s_axilite port=return bundle=control
+    int substring_length = *substring_length_p;
 
     node *root = new_node();
     char *substring_buf = (char *)malloc(sizeof(char) * substring_length);
