@@ -59,7 +59,7 @@ endif
 CLCXX_OPT += $(CLCXX_OPT_LEVEL) $(DEVICE_REPO_OPT) --platform $(PLATFORM) $(KERNEL_DEFS) $(KERNEL_INCS)
 CLCXX_OPT += --kernel $(KERNEL_NAME)
 CLCXX_OPT += --xp prop:kernel.$(KERNEL_NAME).kernel_flags="-std=c++0x"
-CLCXX_OPT += -s -g
+CLCXX_OPT += -s -g -DARRAY_LOG=10
 CLCXX_CSIM_OPT = -t sw_emu --temp_dir $(abspath $(TMP)/$(CSIM_XCLBIN:.xclbin=))
 CLCXX_COSIM_OPT = -t hw_emu --temp_dir $(abspath $(TMP)/$(COSIM_XCLBIN:.xclbin=))
 CLCXX_HW_OPT = -t hw --temp_dir $(abspath $(TMP)/$(HW_XCLBIN:.xclbin=))

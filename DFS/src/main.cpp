@@ -293,7 +293,7 @@ int main(int argc, char** argv)
             printf("Test failed\n");
             return EXIT_FAILURE;
         }
-    if (device_fallback) printf("INFO: fallback to host");
+    if (device_fallback[0]) printf("INFO: fallback to host");
 
     clWaitForEvents(1, &readevent);
 

@@ -1,0 +1,228 @@
+
+struct __dst_alloc_list_base_t 
+{
+  unsigned int prev;
+  unsigned int next;
+}
+;
+// type __didxL104R was ::node*
+typedef unsigned int __didxL104R;
+#include <stdlib.h>
+#include <stdio.h>
+
+struct btnode 
+{
+  int value;
+  __didxL104R left;
+  __didxL104R right;
+}
+;
+typedef struct btnode node;
+/* function declarations */
+
+struct __dst_alloc_list__dmemL104R 
+{
+  struct __dst_alloc_list_base_t _link;
+  node _data;
+}
+;
+struct __dst_alloc_list__dmemL104R __dmemL104R[1024U];
+unsigned int __dst_alloc_malloc__dmemL104R(unsigned int );
+void __dst_alloc_free__dmemL104R(unsigned int );
+# 1 "<stdin>"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "/usr/include/stdc-predef.h" 1 3 4
+# 1 "<command-line>" 2
+# 1 "<stdin>"
+# 54 "<stdin>"
+typedef unsigned int __dst_alloc_size_t;
+typedef unsigned char __dst_alloc_bucket_size_t;
+# 73 "<stdin>"
+unsigned char __dst_alloc_node_split__dmemL104R[(1 << (10 - 1)) / 8];
+static unsigned char __dst_alloc_test_parent_split__dmemL104R(__dst_alloc_size_t index) {
+    index = (index - 1) / 2;
+    return (__dst_alloc_node_split__dmemL104R[index / 8] >> (index % 8)) & 1;
+}
+static void __dst_alloc_flip_parent_split__dmemL104R(__dst_alloc_size_t index) {
+    index = (index - 1) / 2;
+    __dst_alloc_node_split__dmemL104R[index / 8] ^= 1 << (index % 8);
+}
+static void __dst_alloc_clr_parent_split__dmemL104R(__dst_alloc_size_t index) {
+    index = (index - 1) / 2;
+    __dst_alloc_node_split__dmemL104R[index / 8] &= ~(1 << (index % 8));
+}
+struct __dst_alloc_list_base_t __dst_alloc_buckets__dmemL104R[10] = {{1, 1}};
+static __dst_alloc_bucket_size_t __dst_alloc_bucket_for_request__dmemL104R(
+        __dst_alloc_size_t request) {
+    __dst_alloc_bucket_size_t bucket = 10 - 1;
+    __dst_alloc_size_t size = 2;
+    while (size < request) {
+        size <<= 1;
+        bucket -= 1;
+    }
+    return bucket;
+}
+static void __dst_alloc_list_push__dmemL104R(
+        __dst_alloc_bucket_size_t bucket,
+        __dst_alloc_size_t entry) {
+    __dst_alloc_size_t prev = __dst_alloc_buckets__dmemL104R[bucket].prev;
+    __dmemL104R[entry]._link.prev = prev;
+    __dmemL104R[entry]._link.next = 0;
+    if (prev == 0) __dst_alloc_buckets__dmemL104R[bucket].next = entry;
+    else __dmemL104R[prev]._link.next = entry;
+    __dst_alloc_buckets__dmemL104R[bucket].prev = entry;
+}
+static void __dst_alloc_list_remove__dmemL104R(
+        __dst_alloc_bucket_size_t bucket,
+        __dst_alloc_size_t entry) {
+    __dst_alloc_size_t prev = __dmemL104R[entry]._link.prev;
+    __dst_alloc_size_t next = __dmemL104R[entry]._link.next;
+    if (prev == 0) __dst_alloc_buckets__dmemL104R[bucket].next = next;
+    else __dmemL104R[prev]._link.next = next;
+    if (next == 0) __dst_alloc_buckets__dmemL104R[bucket].prev = prev;
+    else __dmemL104R[next]._link.prev = prev;
+}
+static __dst_alloc_size_t __dst_alloc_list_pop__dmemL104R(
+        __dst_alloc_bucket_size_t bucket) {
+    __dst_alloc_size_t back = __dst_alloc_buckets__dmemL104R[bucket].prev;
+    if (back == 0) return 0;
+    __dst_alloc_list_remove__dmemL104R(bucket, back);
+    return back;
+}
+static __dst_alloc_size_t __dst_alloc_index_for_node__dmemL104R(
+        __dst_alloc_size_t bucket_index,
+        __dst_alloc_bucket_size_t bucket) {
+    return 1 + ((bucket_index - (1 << bucket) + 1) << (10 - bucket));
+}
+static __dst_alloc_size_t __dst_alloc_node_for_index__dmemL104R(
+        __dst_alloc_size_t global_index,
+        __dst_alloc_bucket_size_t bucket) {
+    return ((global_index - 1) >> (10 - bucket)) + (1 << bucket) - 1;
+}
+void __dst_alloc_init__dmemL104R() {
+    for (int i = 0; i < 10; i++) {
+        __dst_alloc_buckets__dmemL104R[i].prev = 0;
+        __dst_alloc_buckets__dmemL104R[i].next = 0;
+    }
+    __dst_alloc_list_push__dmemL104R(0, 1);
+}
+__dst_alloc_size_t __dst_alloc_malloc__dmemL104R(__dst_alloc_size_t request) {
+    request = request / sizeof(::node);
+    if (request > (1 << 10)) return 0;
+    __dst_alloc_bucket_size_t bucket =
+        __dst_alloc_bucket_for_request__dmemL104R(request);
+    __dst_alloc_bucket_size_t original_bucket = bucket;
+    while ((__dst_alloc_bucket_size_t)(bucket + 1) != 0) {
+        __dst_alloc_size_t ptr = __dst_alloc_list_pop__dmemL104R(bucket);
+        if (!ptr) {
+            bucket--; continue;
+        }
+        __dst_alloc_size_t i = __dst_alloc_node_for_index__dmemL104R(ptr, bucket);
+        if (i != 0) __dst_alloc_flip_parent_split__dmemL104R(i);
+        while (bucket < original_bucket) {
+            i = ((i) * 2 + 1);
+            __dst_alloc_clr_parent_split__dmemL104R(i);
+            __dst_alloc_flip_parent_split__dmemL104R(i);
+            bucket++;
+            __dst_alloc_list_push__dmemL104R(bucket, __dst_alloc_index_for_node__dmemL104R(((i) + 1), bucket));
+        }
+        __dmemL104R[ptr]._link.prev = request;
+        return ptr + 1;
+    }
+    return 0;
+}
+void __dst_alloc_free__dmemL104R(__dst_alloc_size_t ptr) {
+    if (ptr == 0) return;
+    ptr -= 1;
+    __dst_alloc_bucket_size_t bucket =
+        __dst_alloc_bucket_for_request__dmemL104R(__dmemL104R[ptr]._link.prev);
+    __dst_alloc_size_t i = __dst_alloc_node_for_index__dmemL104R(ptr, bucket);
+    while (i != 0) {
+        __dst_alloc_flip_parent_split__dmemL104R(i);
+        if (__dst_alloc_test_parent_split__dmemL104R(i)) break;
+        __dst_alloc_list_remove__dmemL104R(bucket, __dst_alloc_index_for_node__dmemL104R(((((i) - 1) ^ 1) + 1), bucket));
+        i = (((i) - 1) / 2);
+        bucket--;
+    }
+    __dst_alloc_list_push__dmemL104R(bucket, __dst_alloc_index_for_node__dmemL104R(i, bucket));
+}
+void insert(__didxL104R ,__didxL104R );
+void dfs_traverse(__didxL104R );
+/*global declarations */
+__didxL104R root = 0L;
+int val;
+int front = 0;
+int rear = - 1;
+int i;
+int queue[20];
+bool g_fallback = false;
+extern "C" {
+
+void process_top(int n,int *input,int *output,int *fallback)
+{
+  
+#pragma HLS INTERFACE m_axi port=input offset=slave bundle=gmem
+  
+#pragma HLS INTERFACE m_axi port=output offset=slave bundle=gmem
+  
+#pragma HLS INTERFACE m_axi port=fallback offset=slave bundle=gmem
+  
+#pragma HLS INTERFACE s_axilite port=n bundle=control
+  
+#pragma HLS INTERFACE s_axilite port=input bundle=control
+  
+#pragma HLS INTERFACE s_axilite port=output bundle=control
+  
+#pragma HLS INTERFACE s_axilite port=fallback bundle=control
+  
+#pragma HLS INTERFACE s_axilite port=return bundle=control
+  __didxL104R newitem = 0L;
+  int num = 10;
+  int i = 0;
+  while(i < n){
+    newitem = ((__didxL104R )(__dst_alloc_malloc__dmemL104R(sizeof(node ))));
+    if (newitem == 0L) 
+      g_fallback = true;
+    (&(__dmemL104R + newitem + 0U - 1U) -> _data) -> left = (&(__dmemL104R + newitem + 0U - 1U) -> _data) -> right = 0L;
+    (&(__dmemL104R + newitem + 0U - 1U) -> _data) -> value = input[i];
+    if (root == 0L) 
+      root = newitem;
+     else {
+      insert(newitem,root);
+    }
+    i++;
+  }
+  dfs_traverse(root);
+  for (i = 0; i < n; i++) 
+    output[i] = queue[i];
+  fallback[0] = g_fallback;
+}
+}
+/* inserting nodes of a tree */
+
+void insert(__didxL104R newitem,__didxL104R root)
+{
+  if ((&(__dmemL104R + newitem + 0U - 1U) -> _data) -> value > (&(__dmemL104R + root + 0U - 1U) -> _data) -> value) {
+    if ((&(__dmemL104R + root + 0U - 1U) -> _data) -> right == 0L) 
+      (&(__dmemL104R + root + 0U - 1U) -> _data) -> right = newitem;
+     else 
+      insert(newitem,(&(__dmemL104R + root + 0U - 1U) -> _data) -> right);
+  }
+  if ((&(__dmemL104R + newitem + 0U - 1U) -> _data) -> value < (&(__dmemL104R + root + 0U - 1U) -> _data) -> value) {
+    if ((&(__dmemL104R + root + 0U - 1U) -> _data) -> left == 0L) 
+      (&(__dmemL104R + root + 0U - 1U) -> _data) -> left = newitem;
+     else 
+      insert(newitem,(&(__dmemL104R + root + 0U - 1U) -> _data) -> left);
+  }
+}
+/* displaying elements using BFS traversal */
+
+void dfs_traverse(__didxL104R root)
+{
+  if ((&(__dmemL104R + root + 0U - 1U) -> _data) -> left != 0L) 
+    dfs_traverse((&(__dmemL104R + root + 0U - 1U) -> _data) -> left);
+  queue[++rear] = (&(__dmemL104R + root + 0U - 1U) -> _data) -> value;
+  if ((&(__dmemL104R + root + 0U - 1U) -> _data) -> right != 0L) 
+    dfs_traverse((&(__dmemL104R + root + 0U - 1U) -> _data) -> right);
+}
