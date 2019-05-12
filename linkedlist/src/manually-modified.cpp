@@ -53,7 +53,7 @@ int add(int node, DATA data) {
     int temp = selfMalloc();
 
     if (temp == _NULL) {
-        exit(0); // no memory available
+        exit(0);
     }
     LL[temp].data = data;
     LL[temp].next = node;
@@ -64,7 +64,7 @@ int add(int node, DATA data) {
 void add_at(int node, DATA data) {
     int temp = selfMalloc();
     if (temp == _NULL) {
-        exit(EXIT_FAILURE); // no memory available
+        exit(EXIT_FAILURE);
     }
     LL[temp].data = data;
     LL[temp].next = LL[node].next;
@@ -86,57 +86,57 @@ struct _reverse_rec_recursion_record {
 #define MAX_STACK 20
 
 int reverse_rec(int ptr, int previous) {
-    _reverse_rec_recursion_record _stack[MAX_STACK];   // head
-    int _stack_top = 0;                                // head
-    int _return_value = 0;                             // head
+    _reverse_rec_recursion_record _stack[MAX_STACK];
+    int _stack_top = 0;
+    int _return_value = 0;
 
-    _stack[_stack_top].ptr = ptr;                      // head (init)
-    _stack[_stack_top].previous = previous;            // head (init)
-    _stack[_stack_top]._local_temp = 0;                // head (init)
-    _stack[_stack_top]._location = 0;                  // head (init)
-    _stack_top++;                                      // head (init)
+    _stack[_stack_top].ptr = ptr;
+    _stack[_stack_top].previous = previous;
+    _stack[_stack_top]._local_temp = 0;
+    _stack[_stack_top]._location = 0;
+    _stack_top++;
 
-    while (_stack_top != 0) {                          // head (loop)
+    while (_stack_top != 0) {
 
     int temp;
 
-        _stack_top--;                                  // after_defination (restore variable)
-        ptr = _stack[_stack_top].ptr;                  // after_defination (restore variable)
-        previous = _stack[_stack_top].previous;        // after_defination (restore variable)
-        temp = _stack[_stack_top]._local_temp;         // after_defination (restore variable)
+        _stack_top--;
+        ptr = _stack[_stack_top].ptr;
+        previous = _stack[_stack_top].previous;
+        temp = _stack[_stack_top]._local_temp;
 
-        int _location = _stack[_stack_top]._location;  // after_defination (restore location)
-        if (_location == 0) goto reverse_rec_L0;       // after_defination (restore location)
-        if (_location == 1) goto reverse_rec_L1;       // after_defination (restore location)
+        int _location = _stack[_stack_top]._location;
+        if (_location == 0) goto reverse_rec_L0;
+        if (_location == 1) goto reverse_rec_L1;
 
-reverse_rec_L0:                                        // after_defination (start point)
+reverse_rec_L0:
     if (LL[ptr].next == _NULL) {
         LL[ptr].next = previous;
 
-        // return ptr;
-        _return_value = ptr; continue;                 // return template
+
+        _return_value = ptr; continue;
     } else {
-        // temp = reverse_rec(LL[ptr].next, ptr);
-        _stack[_stack_top].ptr = ptr;                  // function call template (store variable)
-        _stack[_stack_top].previous = previous;        // function call template (store variable)
-        _stack[_stack_top]._local_temp = temp;         // function call template (store variable)
-        ptr = LL[_stack[_stack_top].ptr].next;         // function call template (variable init)
-        previous = _stack[_stack_top].ptr;             // function call template (variable init)
-        temp = 0;                                      // function call template (variable init)
-        _stack[_stack_top]._location = 1;              // function call template (store location)
-        _stack_top++;                                  // function call template (store location)
-        goto reverse_rec_L0;                           // function call template (jump)
-reverse_rec_L1:                                        // function call template (location restore point)
-        temp = _return_value;                          // function call template (return value)
+
+        _stack[_stack_top].ptr = ptr;
+        _stack[_stack_top].previous = previous;
+        _stack[_stack_top]._local_temp = temp;
+        ptr = LL[_stack[_stack_top].ptr].next;
+        previous = _stack[_stack_top].ptr;
+        temp = 0;
+        _stack[_stack_top]._location = 1;
+        _stack_top++;
+        goto reverse_rec_L0;
+reverse_rec_L1:
+        temp = _return_value;
 
         LL[ptr].next = previous;
 
-        // return temp;
-        _return_value = temp; continue;                // return template
+
+        _return_value = temp; continue;
     }
 
-    }                                                  // footer
-    return _return_value;                              // footer
+    }
+    return _return_value;
 }
 
 int sort_list(int head) {
@@ -192,15 +192,15 @@ void process_top(int n, int *input, int *output)
 
     node = LL[LL[head].next].next;
     remove_node(node);
-    head = sort_list(head); // Sort The List
+    head = sort_list(head);
     curr = output_list(head, curr);
     *(curr++) = -1;
 
-    head = reverse_rec(head,_NULL); // Revers The List
+    head = reverse_rec(head,_NULL);
     curr = output_list(head, curr);
     *(curr++) = -1;
 
   return;
 }
 
-}//extern "C"
+}
