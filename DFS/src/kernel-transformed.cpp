@@ -159,7 +159,7 @@ int queue[20];
 bool g_fallback = false;
 extern "C" {
 
-void process_top(int n,int *input,int *output,bool *fallback)
+void process_top(int n,int *input,int *output,int *fallback)
 {
   
 #pragma HLS INTERFACE m_axi port=input offset=slave bundle=gmem
@@ -193,11 +193,10 @@ void process_top(int n,int *input,int *output,bool *fallback)
     }
     i++;
   }
-  queue[++rear] = (&(__dmemL104R + root + 0U - 1U) -> _data) -> value;
   dfs_traverse(root);
   for (i = 0; i < n; i++) 
     output[i] = queue[i];
-   *fallback = g_fallback;
+  fallback[0] = g_fallback;
 }
 }
 /* inserting nodes of a tree */
@@ -212,8 +211,8 @@ struct __rect_packed_type_L1202R__L1203R
 
 void insert(__didxL104R newitem,__didxL104R root)
 {
-  struct __rect_packed_type_L1202R__L1203R __rect_packed_var_L1202R__L1203R[1 << ARRAY_LOG];
-  unsigned int __rect_packed_top_L1202R__L1203R = 0U;
+  volatile struct __rect_packed_type_L1202R__L1203R __rect_packed_var_L1202R__L1203R[1 << ARRAY_LOG];
+  volatile unsigned int __rect_packed_top_L1202R__L1203R = 0U;
   __rect_packed_var_L1202R__L1203R[0 + __rect_packed_top_L1202R__L1203R] . _location = 1U;
   __rect_packed_var_L1202R__L1203R[0 + __rect_packed_top_L1202R__L1203R] . local0 = newitem;
   __rect_packed_var_L1202R__L1203R[0 + __rect_packed_top_L1202R__L1203R] . local1 = root;
@@ -276,8 +275,8 @@ struct __rect_packed_type_L1204R__L1205R
 
 void dfs_traverse(__didxL104R root)
 {
-  struct __rect_packed_type_L1204R__L1205R __rect_packed_var_L1204R__L1205R[1 << ARRAY_LOG];
-  unsigned int __rect_packed_top_L1204R__L1205R = 0U;
+  volatile struct __rect_packed_type_L1204R__L1205R __rect_packed_var_L1204R__L1205R[1 << ARRAY_LOG];
+  volatile unsigned int __rect_packed_top_L1204R__L1205R = 0U;
   __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . _location = 1U;
   __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 = root;
   ++__rect_packed_top_L1204R__L1205R;
@@ -293,7 +292,6 @@ void dfs_traverse(__didxL104R root)
     goto __rect_func_L3_L1204R__L1205R;
   __rect_func_L1_L1204R__L1205R:
   if ((&(__dmemL104R + __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 + 0U - 1U) -> _data) -> left != 0L) {
-    queue[++rear] = (&(__dmemL104R + (&(__dmemL104R + __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 + 0U - 1U) -> _data) -> left + 0U - 1U) -> _data) -> value;
     __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . _location = 2U;
     __rect_packed_var_L1204R__L1205R[1 + __rect_packed_top_L1204R__L1205R] . local0 = (&(__dmemL104R + __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 + 0U - 1U) -> _data) -> left;
     ++__rect_packed_top_L1204R__L1205R;
@@ -305,8 +303,8 @@ void dfs_traverse(__didxL104R root)
     __rect_func_L2_L1204R__L1205R:
     0;
   }
+  queue[++rear] = (&(__dmemL104R + __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 + 0U - 1U) -> _data) -> value;
   if ((&(__dmemL104R + __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 + 0U - 1U) -> _data) -> right != 0L) {
-    queue[++rear] = (&(__dmemL104R + (&(__dmemL104R + __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 + 0U - 1U) -> _data) -> right + 0U - 1U) -> _data) -> value;
     __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . _location = 3U;
     __rect_packed_var_L1204R__L1205R[1 + __rect_packed_top_L1204R__L1205R] . local0 = (&(__dmemL104R + __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 + 0U - 1U) -> _data) -> right;
     ++__rect_packed_top_L1204R__L1205R;

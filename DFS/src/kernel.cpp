@@ -19,7 +19,7 @@ int queue[20];
 bool g_fallback = false;
 
 extern "C" {
-void process_top(int n, int *input, int *output, bool *fallback)
+void process_top(int n, int *input, int *output, int *fallback)
 {
 #pragma HLS INTERFACE m_axi port=input offset=slave bundle=gmem
 #pragma HLS INTERFACE m_axi port=output offset=slave bundle=gmem
@@ -44,11 +44,10 @@ void process_top(int n, int *input, int *output, bool *fallback)
         }
         i++;
     }
-    queue[++rear] = root->value;
     dfs_traverse(root);
     for (i = 0;i < n;i++)
         output[i] = queue[i];
-    *fallback = g_fallback;
+    fallback[0] = g_fallback;
 }
 };
 
@@ -75,13 +74,8 @@ void insert(node * newitem , node *root)
 void dfs_traverse(node *root)
 {
     if (root->left != NULL)
-    {
-        queue[++rear] = root->left->value;
         dfs_traverse(root->left);
-    }
+    queue[++rear] = root->value;
     if (root->right != NULL)
-    {
-        queue[++rear] = root->right->value;
         dfs_traverse(root->right);
-    }
 }

@@ -22,7 +22,7 @@ int queue[20];
 bool g_fallback = false;
 extern "C" {
 
-void process_top(int n,int *input,int *output,bool *fallback)
+void process_top(int n,int *input,int *output,int *fallback)
 {
   
 #pragma HLS INTERFACE m_axi port=input offset=slave bundle=gmem
@@ -56,11 +56,10 @@ void process_top(int n,int *input,int *output,bool *fallback)
     }
     i++;
   }
-  queue[++rear] = root -> value;
   dfs_traverse(root);
   for (i = 0; i < n; i++) 
     output[i] = queue[i];
-   *fallback = g_fallback;
+  fallback[0] = g_fallback;
 }
 }
 /* inserting nodes of a tree */
@@ -75,8 +74,8 @@ struct __rect_packed_type_L1202R__L1203R
 
 void insert(node *newitem,node *root)
 {
-  struct __rect_packed_type_L1202R__L1203R __rect_packed_var_L1202R__L1203R[1024U];
-  unsigned int __rect_packed_top_L1202R__L1203R = 0U;
+  volatile struct __rect_packed_type_L1202R__L1203R __rect_packed_var_L1202R__L1203R[1024U];
+  volatile unsigned int __rect_packed_top_L1202R__L1203R = 0U;
   __rect_packed_var_L1202R__L1203R[0 + __rect_packed_top_L1202R__L1203R] . _location = 1U;
   __rect_packed_var_L1202R__L1203R[0 + __rect_packed_top_L1202R__L1203R] . local0 = newitem;
   __rect_packed_var_L1202R__L1203R[0 + __rect_packed_top_L1202R__L1203R] . local1 = root;
@@ -139,8 +138,8 @@ struct __rect_packed_type_L1204R__L1205R
 
 void dfs_traverse(node *root)
 {
-  struct __rect_packed_type_L1204R__L1205R __rect_packed_var_L1204R__L1205R[1024U];
-  unsigned int __rect_packed_top_L1204R__L1205R = 0U;
+  volatile struct __rect_packed_type_L1204R__L1205R __rect_packed_var_L1204R__L1205R[1024U];
+  volatile unsigned int __rect_packed_top_L1204R__L1205R = 0U;
   __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . _location = 1U;
   __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 = root;
   ++__rect_packed_top_L1204R__L1205R;
@@ -156,7 +155,6 @@ void dfs_traverse(node *root)
     goto __rect_func_L3_L1204R__L1205R;
   __rect_func_L1_L1204R__L1205R:
   if (__rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 -> left != 0L) {
-    queue[++rear] = __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 -> left -> value;
     __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . _location = 2U;
     __rect_packed_var_L1204R__L1205R[1 + __rect_packed_top_L1204R__L1205R] . local0 = __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 -> left;
     ++__rect_packed_top_L1204R__L1205R;
@@ -168,8 +166,8 @@ g_fallback = true;
     __rect_func_L2_L1204R__L1205R:
     0;
   }
+  queue[++rear] = __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 -> value;
   if (__rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 -> right != 0L) {
-    queue[++rear] = __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 -> right -> value;
     __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . _location = 3U;
     __rect_packed_var_L1204R__L1205R[1 + __rect_packed_top_L1204R__L1205R] . local0 = __rect_packed_var_L1204R__L1205R[0 + __rect_packed_top_L1204R__L1205R] . local0 -> right;
     ++__rect_packed_top_L1204R__L1205R;
